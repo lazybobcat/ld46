@@ -7,10 +7,20 @@
 
 #include <entities/entity.hpp>
 #include <entities/emitternode.hpp>
+#include <resources/animation.hpp>
 
 enum class Direction
 {
     Up, Down, Left, Right
+};
+
+enum class Animations
+{
+    WalkingDown = 0,
+    WalkingUp = 1,
+    WalkingLeft = 2,
+    WalkingRight = 3,
+    Watering = 4,
 };
 
 class PlayerEntity : public Entity
@@ -31,10 +41,11 @@ public:
 
 protected:
     virtual void updateCurrent(sf::Time dt, CommandQueue &commands);
+    virtual void updateAnimations(sf::Time dt);
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
-    sf::Sprite mSprite;
+    std::array<Animation, 5> mAnimations;
     EmitterNode*    mEmitter;
 
     bool mHasToWater = false;

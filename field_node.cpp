@@ -6,7 +6,7 @@
 #include <iostream>
 #include "field_node.hpp"
 
-constexpr float DECAY_TIME = 10;
+constexpr float DECAY_TIME = 20;
 constexpr float GROW_TIME = DECAY_TIME / 2.f;
 
 FieldNode::FieldNode(TextureHolder& textures)
@@ -88,7 +88,7 @@ void FieldNode::updateCurrent(sf::Time dt, CommandQueue& commands)
             mSprite.setTextureRect({96, 0, 32, 32});
             if (mGrowTimer == sf::Time::Zero) {
                 mWateredCount++;
-                if (mWateredCount >= 2) {
+                if (mWateredCount >= 3) {
                     mState = FieldState::Full;
                     mWateredCount = 0;
                 } else {

@@ -150,20 +150,20 @@ void World::update(sf::Time dt)
     }
 
     // Set the listener position
-    auto playerPos = mPlayerEntity->getPosition();
     float halfSpriteW = SPRITE_WIDTH / 2;
 
-    if (playerPos.x < halfSpriteW) {
-        mPlayerEntity->setPosition(halfSpriteW, playerPos.y);
-    } else if (playerPos.x > MAP_WIDTH - halfSpriteW) {
-        mPlayerEntity->setPosition(MAP_WIDTH - halfSpriteW, playerPos.y);
+    if (mPlayerEntity->getPosition().x < halfSpriteW) {
+        mPlayerEntity->setPosition(halfSpriteW, mPlayerEntity->getPosition().y);
+    } else if (mPlayerEntity->getPosition().x > MAP_WIDTH - halfSpriteW) {
+        mPlayerEntity->setPosition(MAP_WIDTH - halfSpriteW, mPlayerEntity->getPosition().y);
     }
-    if (playerPos.y < halfSpriteW) {
-        mPlayerEntity->setPosition(playerPos.x, halfSpriteW);
-    } else if (playerPos.y > MAP_HEIGHT - halfSpriteW) {
-        mPlayerEntity->setPosition(playerPos.x, MAP_HEIGHT - halfSpriteW);
+    if (mPlayerEntity->getPosition().y < halfSpriteW) {
+        mPlayerEntity->setPosition(mPlayerEntity->getPosition().x, halfSpriteW);
+    } else if (mPlayerEntity->getPosition().y > MAP_HEIGHT - halfSpriteW) {
+        mPlayerEntity->setPosition(mPlayerEntity->getPosition().x, MAP_HEIGHT - halfSpriteW);
     }
 
+    auto playerPos = mPlayerEntity->getPosition();
     float cameraX = std::min(std::max(SCREEN_WIDTH/2.f, playerPos.x), MAP_WIDTH-SCREEN_WIDTH/2);
     float cameraY = std::min(std::max(SCREEN_HEIGHT / 2.f, playerPos.y), MAP_HEIGHT - SCREEN_HEIGHT / 2);
     mWorldView.setCenter(cameraX, cameraY);

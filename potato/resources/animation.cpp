@@ -93,6 +93,16 @@ sf::FloatRect Animation::getGlobalBounds() const
     return getTransform().transformRect(getLocalBounds());
 }
 
+void Animation::setAnimationNumber(int number)
+{
+    mAnimationNumber = number;
+}
+
+int Animation::getAnimationNumber()
+{
+    return mAnimationNumber;
+}
+
 void Animation::update(sf::Time dt)
 {
     sf::Time timePerFrame = mDuration / static_cast<float>(mNumFrames);
@@ -102,7 +112,7 @@ void Animation::update(sf::Time dt)
     sf::IntRect textureRect = mSprite.getTextureRect();
 
     if (mCurrentFrame == 0)
-        textureRect = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
+        textureRect = sf::IntRect(0, mAnimationNumber * mFrameSize.y, mFrameSize.x, mFrameSize.y);
 
     // While we have a frame to process
     while (mElapsedTime >= timePerFrame && (mCurrentFrame <= mNumFrames || mRepeat))
@@ -125,7 +135,7 @@ void Animation::update(sf::Time dt)
             mCurrentFrame = (mCurrentFrame + 1) % mNumFrames;
 
             if (mCurrentFrame == 0)
-                textureRect = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
+                textureRect = sf::IntRect(0, mAnimationNumber * mFrameSize.y, mFrameSize.x, mFrameSize.y);
         }
         else
         {

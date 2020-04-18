@@ -78,22 +78,34 @@ sf::Keyboard::Key PlayerController::getAssignedKey(Action action) const
 void PlayerController::initializeActions()
 {
     mActionBinding[MoveLeft].action = derivedAction<PlayerEntity>([](PlayerEntity& player, sf::Time dt) {
-        if (!player.onCooldown()) player.move(-player.speed * dt.asSeconds(), 0);
+        if (!player.onCooldown()) {
+            player.move(-player.speed * dt.asSeconds(), 0);
+            player.direction = Direction::Left;
+        }
     });
     mActionBinding[MoveLeft].category = Category::Player;
 
     mActionBinding[MoveRight].action = derivedAction<PlayerEntity>([](PlayerEntity& player, sf::Time dt) {
-        if (!player.onCooldown()) player.move(player.speed * dt.asSeconds(), 0);
+        if (!player.onCooldown()) {
+            player.move(player.speed * dt.asSeconds(), 0);
+            player.direction = Direction::Right;
+        }
     });
     mActionBinding[MoveRight].category = Category::Player;
 
     mActionBinding[MoveDown].action = derivedAction<PlayerEntity>([](PlayerEntity& player, sf::Time dt) {
-        if (!player.onCooldown()) player.move(0, player.speed * dt.asSeconds());
+        if (!player.onCooldown()) {
+            player.move(0, player.speed * dt.asSeconds());
+            player.direction = Direction::Down;
+        }
     });
     mActionBinding[MoveDown].category = Category::Player;
 
     mActionBinding[MoveUp].action = derivedAction<PlayerEntity>([](PlayerEntity& player, sf::Time dt) {
-        if (!player.onCooldown()) player.move(0, -player.speed * dt.asSeconds());
+        if (!player.onCooldown()) {
+            player.move(0, -player.speed * dt.asSeconds());
+            player.direction = Direction::Up;
+        }
     });
     mActionBinding[MoveUp].category = Category::Player;
 

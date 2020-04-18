@@ -16,6 +16,9 @@ public:
     void                setFrameSize(sf::Vector2i size);
     sf::Vector2i        getFrameSize() const;
 
+    void                setAnimationNumber(int number);
+    int                 getAnimationNumber();
+
     void                setNumFrames(std::size_t numFrames);
     std::size_t         getNumFrames() const;
 
@@ -39,6 +42,7 @@ private:
 private:
     sf::Sprite          mSprite;
     sf::Vector2i        mFrameSize;
+    int                 mAnimationNumber = 0;
     std::size_t         mNumFrames;
     std::size_t         mCurrentFrame;
     sf::Time            mDuration;
