@@ -63,10 +63,10 @@ set(LIBS
 source_group(core_h FILES ${CORE_H})
 source_group(core_c FILES ${CORE_C})
 source_group(libs FILES ${LIBS})
-#add_library(liblua STATIC ${CORE_H} ${CORE_C} ${LIBS})
+add_library(liblua STATIC ${CORE_H} ${CORE_C} ${LIBS})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(lua ${CORE_H} ${CORE_C} ${LIBS})
 target_include_directories(lua PUBLIC "include")
-#target_link_libraries(...)
+target_link_libraries(lua)

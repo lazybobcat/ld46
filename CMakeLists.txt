@@ -9,17 +9,21 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC")
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(EXTERNAL_LIBS pthread sfml-system sfml-window sfml-graphics sfml-audio)
+set(EXTERNAL_LIBS sfml-system sfml-window sfml-graphics sfml-audio liblua)
 set(INTERNAL_LIBS)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/potato)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SFML/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lua52/include)
 
+#find_package(SFML COMPONENTS graphics window audio system)
 
 # Lua
+add_subdirectory(SFML)
 add_subdirectory(lua52)
 
 # Game
@@ -60,4 +64,4 @@ set(SOURCE_FILES
         main.cpp pause_state.cpp pause_state.hpp bloom_effect.cpp bloom_effect.hpp potato/resources/post_effect.cpp potato/resources/post_effect.hpp field_node.cpp field_node.hpp player_entity.cpp player_entity.hpp well_node.cpp well_node.hpp points_node.cpp points_node.hpp win_state.cpp win_state.hpp)
 
 add_executable(ld46 ${SOURCE_FILES})
-target_link_libraries(ld46 ${INTERNAL_LIBS} ${EXTERNAL_LIBS} lua)
+target_link_libraries(ld46 ${INTERNAL_LIBS} ${EXTERNAL_LIBS})

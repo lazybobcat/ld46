@@ -8,6 +8,7 @@
 #include <entities/entity.hpp>
 #include <entities/emitternode.hpp>
 #include <resources/animation.hpp>
+#include <array>
 
 enum class Direction
 {

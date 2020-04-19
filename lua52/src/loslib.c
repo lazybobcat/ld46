@@ -47,7 +47,7 @@
 #define LUA_TMPNAMBUFSIZE	32
 #define lua_tmpnam(b,e) { \
         strcpy(b, "/tmp/lua_XXXXXX"); \
-        e = mkstemp(b); \
+        e = tmpnam(b); \
         if (e != -1) close(e); \
         e = (e == -1); }
 
@@ -106,8 +106,8 @@ static int os_tmpname (lua_State *L) {
   char buff[LUA_TMPNAMBUFSIZE];
   int err;
   // e = (tmpnam(b) == NULL)
-//  lua_tmpnam(buff, err);
-  err = mkstemp(buff);
+  lua_tmpnam(buff, err);
+//  err = mkstemp(buff);
   if (err)
     return luaL_error(L, "unable to generate a unique filename");
   lua_pushstring(L, buff);
