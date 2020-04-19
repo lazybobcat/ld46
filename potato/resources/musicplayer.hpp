@@ -18,12 +18,14 @@ public:
     void        play(Musics::ID song);
     void        stop();
     void        pause(bool flag = true);
+    bool        isPaused() const;
     void        setVolume(float volume);
 
 private:
     sf::Music   mMusic;
     std::map<Musics::ID,std::string>    mFilenames;
     float       mVolume;
+    bool        mPaused = false;
 };
 
 #endif // MUSICPLAYER_H

@@ -16,13 +16,17 @@
 class ParticleNode : public SceneNode
 {
 public:
-    ParticleNode(Particle::Type type, const TextureHolder& textures);
+    ParticleNode(Particle::Type type, TextureHolder& textures);
+    virtual ~ParticleNode() = default;
 
     void                    addParticle(sf::Vector2f position);
     void                    addParticle(sf::Vector2f position, float angle);
     Particle::Type          getParticleType() const;
 
     void                    addAffector(std::function<void(Particle&, sf::Time)> affector);
+
+protected:
+    void setTexture(const sf::Texture& texture) { mTexture = texture; }
 
 private:
     virtual void            updateCurrent(sf::Time dt, CommandQueue &commands);
@@ -39,11 +43,20 @@ private:
 private:
     std::deque<Particle>    mParticles;
     std::vector<Affector>   mAffectors;
-    const sf::Texture&      mTexture;
+    sf::Texture&            mTexture;
     Particle::Type          mType;
 
     mutable sf::VertexArray mVertexArray;
     mutable bool            mNeedsVertexUpdate;
+};
+
+class StarParticleNode : public ParticleNode
+{
+public:
+    StarParticleNode(Particle::Type type, TextureHolder& textures) : ParticleNode(type, textures)
+    {
+        setTexture(textures.get(Textures::ParticleStar));
+    }
 };
 
 #endif // PARTICLENODE_H

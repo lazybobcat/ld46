@@ -8,9 +8,10 @@ GameState::GameState(StateStack& stack, State::Context context) :
 State(stack, context),
 mPlayer(*context.player),
 mWorld(*context.window, *context.textures, *context.fonts, *context.music, *context.sounds, *context.scripts, mPlayer),
-mIsGameOver(false)
+mIsGameOver(false),
+mMusicPlayer(context.music)
 {
-
+    mMusicPlayer->play(Musics::Main);
 }
 
 void GameState::draw()
@@ -22,6 +23,8 @@ void GameState::draw()
 
 bool GameState::update(sf::Time dt)
 {
+    if (mMusicPlayer->isPaused()) mMusicPlayer->pause(false);
+
     CommandQueue& commands = mWorld.getCommandQueue();
     mPlayer.handleRealtimeInput(commands);
 
@@ -41,6 +44,7 @@ bool GameState::handleEvent(const sf::Event& event)
         {
             case sf::Keyboard::Escape:
                 if(!mIsGameOver) {
+                    mMusicPlayer->pause(true);
                     requestStackPush(States::Pause);
                 } else {
                     requestStackPop();
@@ -52,11 +56,15 @@ bool GameState::handleEvent(const sf::Event& event)
     }  else if (event.type == sf::Event::JoystickButtonReleased) {
         if (event.joystickButton.button == 7) {
             if(!mIsGameOver) {
+                mMusicPlayer->pause(true);
                 requestStackPush(States::Pause);
             }
         }
     } else if(event.type == sf::Event::LostFocus) {
-        if(!mIsGameOver) requestStackPush(States::Pause);
+        if(!mIsGameOver) {
+            mMusicPlayer->pause(true);
+            requestStackPush(States::Pause);
+        }
     }
 
     return true;

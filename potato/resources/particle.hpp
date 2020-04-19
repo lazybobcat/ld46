@@ -7,6 +7,7 @@
 
 struct Particle
 {
+public:
     enum Type
     {
         Default,

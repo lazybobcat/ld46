@@ -7,6 +7,7 @@
 #include "../field_node.hpp"
 #include "../player_entity.hpp"
 #include "../well_node.hpp"
+#include "utils.hpp"
 
 enum class TT
 {
@@ -41,7 +42,7 @@ constexpr int SCREEN_HEIGHT = SCREEN_WIDTH * 10 / 16;
 
 World::World(sf::RenderWindow& window, TextureHolder &textures, FontHolder &fonts, MusicPlayer &music, SoundPlayer &sounds, ScriptPlayer &scripts, PlayerController &player) :
     mWindow(window),
-    mWorldView(window.getDefaultView()),
+    mUiView(window.getDefaultView()),
     mTextures(textures),
     mFonts(fonts),
     mMusic(music),
@@ -56,7 +57,29 @@ World::World(sf::RenderWindow& window, TextureHolder &textures, FontHolder &font
     buildScene();
 
     // Other things here, like setting the view center on the player, scores, etc...
-//    mWorldView.setViewport({0, 0.05f, 1.f, 0.9f});
+    std::unique_ptr<SoundNode> sound(new SoundNode(sounds));
+    mSceneGraph.attachChild(std::move(sound));
+
+    mWaterCan.setTexture(textures.get(Textures::WaterCan));
+    mWaterCan.setOrigin(0, 13);
+    mWaterCan.setScale({6.f, 6.f});
+    mWaterCan.setPosition(SCREEN_WIDTH - 30*6, 100);
+
+    mWaterCanBackground.setTexture(textures.get(Textures::WaterCan));
+    mWaterCanBackground.setOrigin(0, 13);
+    mWaterCanBackground.setScale({6.f, 6.f});
+    mWaterCanBackground.setColor({0, 0, 0, 128});
+    mWaterCanBackground.setPosition(SCREEN_WIDTH - 30*6, 100);
+
+    mStar.setTexture(textures.get(Textures::Star));
+    mStar.setScale({4.f, 4.f});
+    mStar.setPosition(50, 50);
+
+    mPoints.setFont(fonts.get(Fonts::Main));
+    mPoints.setCharacterSize(20);
+    mPoints.setFillColor({237, 237, 237});
+    mPoints.setOutlineColor({49, 34, 44});
+    mPoints.setPosition(100, 60);
 }
 
 
@@ -67,6 +90,8 @@ void World::loadTextures()
 
 void World::buildScene()
 {
+    mWorldView.setSize(mWindow.getSize().x, mWindow.getSize().y);
+    mWorldView.setCenter(mWindow.getSize().x / 2.f, mWindow.getSize().y / 2.f);
     mSceneTexture.create(mWindow.getSize().x, mWindow.getSize().y);
 
     // Initialize layers
@@ -110,7 +135,7 @@ void World::buildScene()
 
     // Add particle node to the scene
     {
-        std::unique_ptr<ParticleNode> pnode(new ParticleNode(Particle::Default, mTextures));
+        std::unique_ptr<StarParticleNode> pnode(new StarParticleNode(Particle::Default, mTextures));
         pnode->addAffector([](Particle &p, sf::Time dt) {
             p.position.x += 2 * std::cos(p.position.y * 0.05f);
             p.position.y -= 150.f * dt.asSeconds();
@@ -136,20 +161,31 @@ void World::buildScene()
     }
 
     // Player
-    std::unique_ptr<PlayerEntity> player(new PlayerEntity(mTextures));
+    std::unique_ptr<PlayerEntity> player(new PlayerEntity(mTextures, mWaterCanCapacity));
     player->setOrigin(SPRITE_WIDTH/2, SPRITE_WIDTH/2);
     player->setPosition(6*SPRITE_WIDTH - SPRITE_WIDTH/2, 4*SPRITE_WIDTH - SPRITE_WIDTH/2);
     mPlayerEntity = player.get();
     mSceneLayers[Foreground]->attachChild(std::move(player));
 
-    // Ennemies
-    // ...
+    // Points
+    std::unique_ptr<PointsNode> points(new PointsNode());
+    mPointsNode = points.get();
+    mSceneLayers[Foreground]->attachChild(std::move(points));
 }
 
 void World::update(sf::Time dt)
 {
     // Game logic here
+    int crop = (int)std::ceil(13 - (int)(mWaterCanCapacity)/10.f * 13);
+    mWaterCan.setTextureRect({0, crop, 21, 13 - crop});
+    mWaterCan.setPosition(SCREEN_WIDTH - 30*6, 100.f + 6*crop);
 
+    if (mPointsNode->poll()) {
+        mPoints.setString(toString(mPointsNode->points()) + "/130");
+        if (mPointsNode->points() >= 130) {
+            mGameWon = true;
+        }
+    }
 
     // Forward commands to scene
     while(!mCommandQueue.isEmpty())
@@ -157,7 +193,6 @@ void World::update(sf::Time dt)
         mSceneGraph.onCommand(mCommandQueue.pop(), dt);
     }
 
-    // Set the listener position
     float halfSpriteW = SPRITE_WIDTH / 2;
 
     if (mPlayerEntity->getPosition().x < halfSpriteW) {
@@ -175,6 +210,10 @@ void World::update(sf::Time dt)
     float cameraX = std::min(std::max(SCREEN_WIDTH/2.f, playerPos.x), MAP_WIDTH-SCREEN_WIDTH/2);
     float cameraY = std::min(std::max(SCREEN_HEIGHT / 2.f, playerPos.y), MAP_HEIGHT - SCREEN_HEIGHT / 2);
     mWorldView.setCenter(cameraX, cameraY);
+
+    // Set the listener position
+    mSounds.setListenerPosition(mPlayerEntity->getWorldPosition());
+    mSounds.removeStoppedSounds();
 
     mSceneGraph.update(dt, mCommandQueue);
 }
@@ -195,6 +234,12 @@ void World::draw()
         mWindow.setView(mWorldView);
         mWindow.draw(mSceneGraph);
     }
+
+    mWindow.setView(mUiView);
+    mWindow.draw(mWaterCanBackground);
+    mWindow.draw(mWaterCan);
+    mWindow.draw(mStar);
+    mWindow.draw(mPoints);
 }
 
 CommandQueue& World::getCommandQueue()

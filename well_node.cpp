@@ -22,8 +22,8 @@ void WellNode::onWaterEvent(sf::Vector2f position, PlayerEntity& player)
 {
     auto rect = getBoundingRect();
     if (rect.contains(position)) {
-        std::cout << "fill" << std::endl;
         player.fill(10);
+        player.playFillSound();
     }
 }
 

@@ -22,11 +22,14 @@ namespace Textures
     enum ID
     {
         Particle,
+        ParticleStar,
         Tiles,
         TilesFull,
         Player,
         Ui,
         MenuBackground,
+        WaterCan,
+        Star,
     };
 }
 
@@ -65,7 +68,7 @@ namespace Musics
 {
     enum ID
     {
-
+        Main,
     };
 }
 
@@ -75,7 +78,13 @@ namespace Sounds
 {
     enum ID
     {
-
+        Water,
+        FieldUpgrade,
+        FieldUpgradeFinal,
+        FieldDecay,
+        Fill,
+        Select,
+        Validate,
     };
 }
 typedef ResourceHolder<sf::SoundBuffer, Sounds::ID> SoundHolder;

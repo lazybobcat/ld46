@@ -43,8 +43,10 @@ void Container::handleEvent(const sf::Event &event)
 
             case sf::Keyboard::Return:
             case sf::Keyboard::Space:
-                if(hasSelection())
+                if(hasSelection()){
                     mChildren[mSelectedChild]->activate();
+                    if (mSoundPlayer) mSoundPlayer->play(Sounds::Validate);
+                }
                 break;
 
             default:break;
@@ -53,8 +55,10 @@ void Container::handleEvent(const sf::Event &event)
         switch(event.joystickButton.button)
         {
             case 0:
-                if(hasSelection())
+                if(hasSelection()){
                     mChildren[mSelectedChild]->activate();
+                    if (mSoundPlayer) mSoundPlayer->play(Sounds::Validate);
+                }
                 break;
 
             default:break;
@@ -110,6 +114,7 @@ void Container::selectNext()
     while(!mChildren[next]->isSelectable());
 
     select(next);
+    if (mSoundPlayer) mSoundPlayer->play(Sounds::Select);
 }
 
 void Container::selectPrevious()
@@ -123,6 +128,7 @@ void Container::selectPrevious()
     while (!mChildren[prev]->isSelectable());
 
     select(prev);
+    if (mSoundPlayer) mSoundPlayer->play(Sounds::Select);
 }
 
 void Container::update(sf::Time dt)

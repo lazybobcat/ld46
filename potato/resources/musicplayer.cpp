@@ -6,7 +6,7 @@ MusicPlayer::MusicPlayer() :
     mVolume(100.f)
 {
     // Fill mFilenames table here :
-    // mFilenames[Musics::myMusic] = "my_file.ogg";
+    mFilenames[Musics::Main] = "assets/musics/ld46.flac";
 }
 
 void MusicPlayer::play(Musics::ID song)
@@ -34,8 +34,16 @@ void MusicPlayer::setVolume(float volume)
 
 void MusicPlayer::pause(bool flag)
 {
-    if (flag)
+    if (flag) {
         mMusic.pause();
-    else
+        mPaused = true;
+    } else {
         mMusic.play();
+        mPaused = false;
+    }
+}
+
+bool MusicPlayer::isPaused() const
+{
+    return mPaused;
 }

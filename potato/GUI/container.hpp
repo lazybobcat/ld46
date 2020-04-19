@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <GUI/widget.hpp>
+#include <resources/soundplayer.hpp>
 
 namespace GUI
 {
@@ -22,6 +23,8 @@ public:
     virtual void    handleEvent(const sf::Event &event);
     void update(sf::Time dt) override;
 
+    void setSoundPlayer(SoundPlayer* player) { mSoundPlayer = player; }
+
 private:
     virtual void    draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
@@ -34,6 +37,7 @@ private:
     std::vector<Widget::Ptr>    mChildren;
     int                         mSelectedChild;
     sf::Time                    mJoystickCooldown = sf::Time::Zero;
+    SoundPlayer*                mSoundPlayer = nullptr;
 };
 
 }

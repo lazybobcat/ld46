@@ -1,6 +1,7 @@
 #include <resources/soundplayer.hpp>
 
 #include <cmath>
+#include <utils.hpp>
 
 namespace
 {
@@ -17,7 +18,13 @@ SoundPlayer::SoundPlayer() :
     mSounds()
 {
     // Fill buffers with sounds
-    //mSoundBuffers.load(Sounds::MySound, "my_sound_file.ogg");
+    mSoundBuffers.load(Sounds::Water, "assets/sounds/water.ogg");
+    mSoundBuffers.load(Sounds::FieldUpgrade, "assets/sounds/upgrade.ogg");
+    mSoundBuffers.load(Sounds::FieldUpgradeFinal, "assets/sounds/upgrade-final.ogg");
+    mSoundBuffers.load(Sounds::FieldDecay, "assets/sounds/decay.ogg");
+    mSoundBuffers.load(Sounds::Fill, "assets/sounds/fill.ogg");
+    mSoundBuffers.load(Sounds::Select, "assets/sounds/select.ogg");
+    mSoundBuffers.load(Sounds::Validate, "assets/sounds/validate.ogg");
 }
 
 void SoundPlayer::play(Sounds::ID sound)
@@ -34,7 +41,8 @@ void SoundPlayer::play(Sounds::ID effect, sf::Vector2f position)
     sound.setPosition(position.x, position.y, 0.f);
     sound.setAttenuation(Attenuation);
     sound.setMinDistance(MinDistance3D);
-    // pitch ?
+    sound.setVolume(50.f);
+    sound.setPitch(randomFloat(0.6f, 1.5f));
 
     sound.play();
 }
@@ -49,7 +57,7 @@ void SoundPlayer::removeStoppedSounds()
 
 void SoundPlayer::setListenerPosition(sf::Vector2f position)
 {
-    sf::Listener::setPosition(position.x, -position.y, ListenerZ);
+    sf::Listener::setPosition(position.x, position.y, ListenerZ);
 }
 
 sf::Vector2f SoundPlayer::getListenerPosition() const

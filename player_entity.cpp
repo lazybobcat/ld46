@@ -8,10 +8,11 @@
 #include "field_node.hpp"
 #include "well_node.hpp"
 
-PlayerEntity::PlayerEntity(TextureHolder& textures)
+PlayerEntity::PlayerEntity(TextureHolder& textures, unsigned int& capacity)
 : Entity()
 , mEmitter(nullptr)
 , mCooldown(sf::seconds(0))
+, mWaterCapacity(capacity)
 {
     mAnimations[(int)Animations::WalkingLeft].setTexture(textures.get(Textures::Player));
     mAnimations[(int)Animations::WalkingLeft].setAnimationNumber(0);
@@ -88,8 +89,8 @@ void PlayerEntity::updateCurrent(sf::Time dt, CommandQueue& commands)
             });
             commands.push(command);
 
-            direction = Direction::Left;
             if (mEmitter) mEmitter->emitWaterParticles();
+            mWaterCapacity -= 1;
         }
 
         Command fillCommand;
@@ -101,12 +102,21 @@ void PlayerEntity::updateCurrent(sf::Time dt, CommandQueue& commands)
 
         // Update player state
         mHasToWater = false;
-        mWaterCapacity -= 1;
+        direction = Direction::Left;
         mCooldown = sf::seconds(1);
     }
     if (mCooldown > sf::Time::Zero) {
         if (mCooldown < dt) mCooldown = sf::Time::Zero;
         else mCooldown -= dt;
+    }
+
+    if (mPlayWaterSound) {
+        playLocalSound(commands, Sounds::Water);
+        mPlayWaterSound = false;
+    }
+    if (mPlayFillSound) {
+        playLocalSound(commands, Sounds::Fill);
+        mPlayFillSound = false;
     }
 }
 
@@ -144,6 +154,7 @@ void PlayerEntity::drawCurrent(sf::RenderTarget& target, sf::RenderStates states
             case Direction::Up:
                 target.draw(mAnimations[(int)Animations::WalkingUp], states);
                 break;
+        std::cout << "fill" << std::endl;
             case Direction::Down:
                 target.draw(mAnimations[(int)Animations::WalkingDown], states);
                 break;

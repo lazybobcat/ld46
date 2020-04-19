@@ -57,7 +57,7 @@ set(SOURCE_FILES
         potato/utils.inl
         potato/world.cpp
         game_state.hpp game_state.cpp
-        main.cpp pause_state.cpp pause_state.hpp bloom_effect.cpp bloom_effect.hpp potato/resources/post_effect.cpp potato/resources/post_effect.hpp field_node.cpp field_node.hpp player_entity.cpp player_entity.hpp well_node.cpp well_node.hpp)
+        main.cpp pause_state.cpp pause_state.hpp bloom_effect.cpp bloom_effect.hpp potato/resources/post_effect.cpp potato/resources/post_effect.hpp field_node.cpp field_node.hpp player_entity.cpp player_entity.hpp well_node.cpp well_node.hpp points_node.cpp points_node.hpp)
 
 add_executable(ld46 ${SOURCE_FILES})
 target_link_libraries(ld46 ${INTERNAL_LIBS} ${EXTERNAL_LIBS} lua)

@@ -30,6 +30,7 @@ PauseState::PauseState(StateStack& stack, State::Context context) : State(stack,
     mGhost.setPosition(100, 300);
 
     // GUI
+    mContainer.setSoundPlayer(context.sounds);
     mContainer.setPosition((context.window->getView().getSize().x - 200) / 2.f, 300.f);
 
     GUI::Button::Ptr button_resume = GUI::Button::Ptr(new GUI::Button(*context.fonts, *context.textures));

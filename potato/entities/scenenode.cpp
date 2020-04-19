@@ -1,4 +1,5 @@
 #include <entities/scenenode.hpp>
+#include "soundnode.hpp"
 
 SceneNode::SceneNode(Category::Type category) :
     mChildren(),
@@ -110,4 +111,13 @@ void SceneNode::onCommand(const Command &command, sf::Time dt)
     {
         child->onCommand(command, dt);
     }
+}
+
+void SceneNode::playLocalSound(CommandQueue &commands, Sounds::ID sound)
+{
+    Command command;
+    command.category = Category::SoundEffect;
+    command.action = derivedAction<SoundNode>(std::bind(&SoundNode::playSound, std::placeholders::_1, sound, getWorldPosition()));
+
+    commands.push(command);
 }

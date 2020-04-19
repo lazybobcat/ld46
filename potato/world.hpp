@@ -17,6 +17,7 @@
 #include <entities/spritenode.hpp>
 #include "../bloom_effect.hpp"
 #include "../player_entity.hpp"
+#include "../points_node.hpp"
 
 class World : public sf::NonCopyable
 {
@@ -25,6 +26,8 @@ public:
 
     void        update(sf::Time dt);
     void        draw();
+
+    bool        won() const { return mGameWon; }
 
     CommandQueue&   getCommandQueue();
 
@@ -44,6 +47,7 @@ private:
 private:
     sf::RenderWindow&                   mWindow;
     sf::View                            mWorldView;
+    sf::View                            mUiView;
     TextureHolder&                      mTextures;
     FontHolder&                         mFonts;
     MusicPlayer&                        mMusic;
@@ -52,6 +56,7 @@ private:
     PlayerController&                   mPlayer;
 
     PlayerEntity*                       mPlayerEntity;
+    PointsNode*                         mPointsNode;
 
     sf::RenderTexture                   mSceneTexture;
     BloomEffect                         mBloomEffect;
@@ -60,7 +65,14 @@ private:
     std::array<SceneNode*,LayerCount>   mSceneLayers;
     CommandQueue                        mCommandQueue;
 
-    // Player
+    // UI
+    unsigned int                        mWaterCanCapacity = 10;
+    sf::Sprite                          mWaterCan;
+    sf::Sprite                          mWaterCanBackground;
+    sf::Sprite                          mStar;
+    sf::Text                            mPoints;
+
+    bool                                mGameWon = false;
 };
 
 #endif // WORLD_H

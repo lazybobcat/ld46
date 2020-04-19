@@ -26,12 +26,15 @@ enum class Animations
 class PlayerEntity : public Entity
 {
 public:
-    explicit PlayerEntity(TextureHolder& textures);
+    PlayerEntity(TextureHolder& textures, unsigned int& capacity);
 
     unsigned int getCategory() const override;
 
     void water();
     void fill(int amount = 10) { mWaterCapacity = amount; }
+
+    void playWaterSound() { mPlayWaterSound = true; }
+    void playFillSound() { mPlayFillSound = true; }
 
     bool onCooldown() const { return mCooldown != sf::Time::Zero; }
     int capacity() const { return mWaterCapacity; }
@@ -49,8 +52,11 @@ private:
     EmitterNode*    mEmitter;
 
     bool mHasToWater = false;
-    int mWaterCapacity = 10;
+    unsigned int& mWaterCapacity;
     sf::Time mCooldown;
+
+    bool mPlayWaterSound = false;
+    bool mPlayFillSound = false;
 };
 
 

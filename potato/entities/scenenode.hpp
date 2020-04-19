@@ -9,6 +9,7 @@
 #include <cassert>
 
 #include <events/commandqueue.hpp>
+#include <resources/resourceidentifiers.hpp>
 
 class SceneNode : public sf::Transformable, public sf::Drawable, private sf::NonCopyable
 {
@@ -31,6 +32,8 @@ public:
 
     virtual unsigned int    getCategory() const;
     void                    onCommand(const Command& command, sf::Time dt);
+
+    void playLocalSound(CommandQueue &commands, Sounds::ID sound);
 
 protected:
     virtual void    updateCurrent(sf::Time dt, CommandQueue& commands);

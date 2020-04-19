@@ -26,6 +26,8 @@ private:
     bool                mIsGameOver;
     sf::Time            mGameOverTimer;
 
+    MusicPlayer*        mMusicPlayer = nullptr;
+
 };
 
 

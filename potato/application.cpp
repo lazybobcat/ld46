@@ -26,14 +26,21 @@ Application::Application(unsigned int width, unsigned int height, const std::str
     mFonts.load(Fonts::Title, "assets/fonts/alagard.ttf");
 
     mTextures.load(Textures::Particle, "assets/textures/particle.png");
+    mTextures.load(Textures::ParticleStar, "assets/textures/particle-star.png");
     mTextures.load(Textures::Tiles, "assets/textures/tilemap.png");
     mTextures.load(Textures::TilesFull, "assets/textures/tiles-full.png");
     mTextures.load(Textures::Player, "assets/textures/player.png");
     mTextures.load(Textures::Ui, "assets/textures/ui.png");
     mTextures.load(Textures::MenuBackground, "assets/textures/background.png");
+    mTextures.load(Textures::WaterCan, "assets/textures/can.png");
+    mTextures.load(Textures::Star, "assets/textures/star.png");
 
     mTextures.get(Textures::Tiles).setSmooth(false);
+    mTextures.get(Textures::TilesFull).setSmooth(false);
     mTextures.get(Textures::Player).setSmooth(false);
+    mTextures.get(Textures::MenuBackground).setSmooth(false);
+    mTextures.get(Textures::WaterCan).setSmooth(false);
+    mTextures.get(Textures::Star).setSmooth(false);
 
 //    mScripts.registerFile(Scripts::HelloWorld, "assets/scripts/helloworld.lua");
 //    mScripts.play(Scripts::HelloWorld);
@@ -96,7 +103,7 @@ void Application::render()
     mStateStack.draw();
 
     mWindow.setView(mWindow.getDefaultView());
-    mWindow.draw(mStatisticsText);
+//    mWindow.draw(mStatisticsText);
     mWindow.display();
 }
 
@@ -112,6 +119,7 @@ void Application::registerStates()
 
 void Application::updateStatistics(sf::Time elapsedTime)
 {
+    return;
     mStatisticsUpdateTime += elapsedTime;
     mStatisticsNumFrames += 1;
 

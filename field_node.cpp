@@ -5,6 +5,8 @@
 #include <utils.hpp>
 #include <iostream>
 #include "field_node.hpp"
+#include "player_entity.hpp"
+#include "points_node.hpp"
 
 constexpr float DECAY_TIME = 20;
 constexpr float GROW_TIME = DECAY_TIME / 2.f;
@@ -35,6 +37,7 @@ void FieldNode::onWaterEvent(sf::Vector2f position, PlayerEntity& player)
     auto rect = getBoundingRect();
     if (rect.contains(position)) {
         upgrade();
+        player.playWaterSound();
     }
 }
 
@@ -73,7 +76,6 @@ void FieldNode::updateCurrent(sf::Time dt, CommandQueue& commands)
     if (mGrowTimer <= sf::Time::Zero) mGrowTimer = sf::Time::Zero;
     if (mDecayTimer <= sf::Time::Zero) mDecayTimer = sf::Time::Zero;
 
-
     switch (mState)
     {
         case FieldState::Dirt:
@@ -87,9 +89,11 @@ void FieldNode::updateCurrent(sf::Time dt, CommandQueue& commands)
                 resetDecayTimer();
                 mWateredCount = 0;
                 if (mGrowingEmitter) mGrowingEmitter->stop();
+                playLocalSound(commands, Sounds::FieldUpgrade);
             } else if (mDecayTimer == sf::Time::Zero) {
                 mState = FieldState::Dirt;
                 mWateredCount = 0;
+                playLocalSound(commands, Sounds::FieldDecay);
             }
             break;
 
@@ -99,6 +103,7 @@ void FieldNode::updateCurrent(sf::Time dt, CommandQueue& commands)
                 mState = FieldState::Growing;
                 mGrowTimer = sf::seconds(DECAY_TIME + GROW_TIME);
                 resetDecayTimer();
+                playLocalSound(commands, Sounds::FieldDecay);
             }
             break;
 
@@ -109,6 +114,7 @@ void FieldNode::updateCurrent(sf::Time dt, CommandQueue& commands)
                 if (mWateredCount >= 3) {
                     mState = FieldState::Full;
                     mWateredCount = 0;
+                    playLocalSound(commands, Sounds::FieldUpgradeFinal);
                 } else {
                     mState = FieldState::Grown;
                     resetDecayTimer();
@@ -126,6 +132,13 @@ void FieldNode::updateCurrent(sf::Time dt, CommandQueue& commands)
                 particles->setPosition(mSprite.getGlobalBounds().width / 2, mSprite.getGlobalBounds().height / 2);
                 mFullEmitter = particles.get();
                 attachChild(std::move(particles));
+
+                Command pointsCommand;
+                pointsCommand.category = Category::Points;
+                pointsCommand.action = derivedAction<PointsNode>([=](PointsNode& points, sf::Time) {
+                    points.addPoint();
+                });
+                commands.push(pointsCommand);
             }
             break;
     }

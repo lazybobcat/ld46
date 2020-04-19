@@ -9,7 +9,7 @@ namespace
     const std::vector<ParticleData> Table = initializeParticleData();
 }
 
-ParticleNode::ParticleNode(Particle::Type type, const TextureHolder &textures) :
+ParticleNode::ParticleNode(Particle::Type type, TextureHolder &textures) :
     SceneNode(Category::ParticleSystem),
     mParticles(),
     mAffectors(),

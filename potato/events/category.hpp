@@ -11,6 +11,7 @@ namespace Category
         Player          = 1 << 2,
         Field           = 1 << 3,
         Well            = 1 << 4,
+        Points          = 1 << 5,
         // ...
         //MixedCategory        = Category1 | Category2,
 

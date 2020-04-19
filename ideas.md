@@ -36,3 +36,5 @@
 * Trouver un nom
 * Title screen
 * Sons et musiques
+* Son pour field FULL
+* UI arrosoir et points
