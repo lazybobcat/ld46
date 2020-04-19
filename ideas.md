@@ -28,13 +28,3 @@
 * Cycle jour/nuit ? (la nuit les plantes ne poussent plus)
 * Nombre limité de graines ? Une fois qu'une parcelle est morte elle n'est plus utilisable ?
 * Accelération de la demande en eau ou pas ?
-
-
-
-### TODO 
-
-* Trouver un nom
-* Title screen
-* Sons et musiques
-* Son pour field FULL
-* UI arrosoir et points
