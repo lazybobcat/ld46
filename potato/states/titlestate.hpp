@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 
 #include <states/state.hpp>
+#include <resources/animation.hpp>
+#include <GUI/container.hpp>
 
 class TitleState : public State
 {
@@ -14,9 +16,14 @@ public:
     virtual bool        handleEvent(const sf::Event &event);
 
 private:
-    sf::Text            mText;
-    bool                mShowText;
-    sf::Time            mTextEffectTime;
+    sf::Text mTitle;
+    sf::Text mDescription;
+    sf::Text mKeys1;
+    sf::Text mKeys2;
+    sf::Text mTip;
+    sf::Text mContinue;
+    sf::Sprite mBackground;
+    Animation mGhost;
 };
 
 #endif // TITLESTATE_H

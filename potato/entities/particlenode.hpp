@@ -26,9 +26,6 @@ public:
     void                    addAffector(std::function<void(Particle&, sf::Time)> affector);
 
 protected:
-    void setTexture(const sf::Texture& texture) { mTexture = texture; }
-
-private:
     virtual void            updateCurrent(sf::Time dt, CommandQueue &commands);
     virtual void            drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 
@@ -40,7 +37,7 @@ private:
 private:
     typedef std::function<void(Particle&, sf::Time)>    Affector;
 
-private:
+protected:
     std::deque<Particle>    mParticles;
     std::vector<Affector>   mAffectors;
     sf::Texture&            mTexture;
@@ -48,15 +45,6 @@ private:
 
     mutable sf::VertexArray mVertexArray;
     mutable bool            mNeedsVertexUpdate;
-};
-
-class StarParticleNode : public ParticleNode
-{
-public:
-    StarParticleNode(Particle::Type type, TextureHolder& textures) : ParticleNode(type, textures)
-    {
-        setTexture(textures.get(Textures::ParticleStar));
-    }
 };
 
 #endif // PARTICLENODE_H

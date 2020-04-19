@@ -40,13 +40,22 @@ PauseState::PauseState(StateStack& stack, State::Context context) : State(stack,
     button_resume->setText("Resume");
     mContainer.pack(std::move(button_resume));
 
+    GUI::Button::Ptr button_help = GUI::Button::Ptr(new GUI::Button(*context.fonts, *context.textures));
+    button_help->setCallback([this]() {
+        requestStackPop();
+        requestStackPush(States::Title);
+    });
+    button_help->setText("Help");
+    button_help->move(0, 75.f);
+    mContainer.pack(std::move(button_help));
+
     GUI::Button::Ptr button_restart = GUI::Button::Ptr(new GUI::Button(*context.fonts, *context.textures));
     button_restart->setCallback([this]() {
         requestStackClear();
         requestStackPush(States::Game);
     });
     button_restart->setText("Restart");
-    button_restart->move(0, 75.f);
+    button_restart->move(0, 150.f);
     mContainer.pack(std::move(button_restart));
 
     GUI::Button::Ptr button_quit = GUI::Button::Ptr(new GUI::Button(*context.fonts, *context.textures));
@@ -54,7 +63,7 @@ PauseState::PauseState(StateStack& stack, State::Context context) : State(stack,
         requestStackClear();
     });
     button_quit->setText("Quit");
-    button_quit->move(0, 150.f);
+    button_quit->move(0, 225.f);
     mContainer.pack(std::move(button_quit));
 }
 

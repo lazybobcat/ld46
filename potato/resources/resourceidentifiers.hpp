@@ -28,6 +28,7 @@ namespace Textures
         Player,
         Ui,
         MenuBackground,
+        TitleBackground,
         WaterCan,
         Star,
     };

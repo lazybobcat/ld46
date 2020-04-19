@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.8.2)
 project(ld46 VERSION 0.1.0)
 
-#set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
+#set(CMAKE_BUILD_TYPE Debug)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/build)
@@ -57,7 +57,7 @@ set(SOURCE_FILES
         potato/utils.inl
         potato/world.cpp
         game_state.hpp game_state.cpp
-        main.cpp pause_state.cpp pause_state.hpp bloom_effect.cpp bloom_effect.hpp potato/resources/post_effect.cpp potato/resources/post_effect.hpp field_node.cpp field_node.hpp player_entity.cpp player_entity.hpp well_node.cpp well_node.hpp points_node.cpp points_node.hpp)
+        main.cpp pause_state.cpp pause_state.hpp bloom_effect.cpp bloom_effect.hpp potato/resources/post_effect.cpp potato/resources/post_effect.hpp field_node.cpp field_node.hpp player_entity.cpp player_entity.hpp well_node.cpp well_node.hpp points_node.cpp points_node.hpp win_state.cpp win_state.hpp)
 
 add_executable(ld46 ${SOURCE_FILES})
 target_link_libraries(ld46 ${INTERNAL_LIBS} ${EXTERNAL_LIBS} lua)

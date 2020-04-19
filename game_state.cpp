@@ -30,6 +30,10 @@ bool GameState::update(sf::Time dt)
 
     mWorld.update(dt);
 
+    if (mWorld.won()) {
+        requestStackPush(States::Win);
+    }
+
     return true;
 }
 

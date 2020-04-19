@@ -78,10 +78,11 @@ void ParticleNode::drawCurrent(sf::RenderTarget &target, sf::RenderStates states
 
 void ParticleNode::computeVertices() const
 {
-    sf::Vector2f size(mTexture.getSize());
+    sf::Vector2f size(9, 9);
     sf::Vector2f half = size / 2.f;
 
     mVertexArray.clear();
+    auto type = getParticleType();
 
     for(const Particle& p : mParticles)
     {
@@ -91,10 +92,10 @@ void ParticleNode::computeVertices() const
         float ratio = p.lifetime.asSeconds() / Table[mType].lifetime.asSeconds();
         color.a = static_cast<sf::Uint8>(255*std::max(ratio, 0.f));
 
-        addVertex(pos.x - half.x, pos.y - half.y, 0.f, 0.f, color);
-        addVertex(pos.x + half.x, pos.y - half.y, size.x, 0.f, color);
-        addVertex(pos.x + half.x, pos.y + half.y, size.x, size.y, color);
-        addVertex(pos.x - half.x, pos.y + half.y, 0.f, size.y, color);
+        addVertex(pos.x - half.x, pos.y - half.y, type != Particle::Growing ? 0.f : 9.f, 0.f, color);
+        addVertex(pos.x + half.x, pos.y - half.y, type != Particle::Growing ? size.x : 18.f, 0.f, color);
+        addVertex(pos.x + half.x, pos.y + half.y, type != Particle::Growing ? size.x : 18.f, size.y, color);
+        addVertex(pos.x - half.x, pos.y + half.y, type != Particle::Growing ? 0.f : 9.f, size.y, color);
     }
 }
 

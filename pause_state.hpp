@@ -21,7 +21,6 @@ private:
     sf::Text mText;
     sf::Sprite mBackground;
     Animation mGhost;
-    Animation mWell;
     GUI::Container mContainer;
 };
 

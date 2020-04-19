@@ -135,7 +135,7 @@ void World::buildScene()
 
     // Add particle node to the scene
     {
-        std::unique_ptr<StarParticleNode> pnode(new StarParticleNode(Particle::Default, mTextures));
+        std::unique_ptr<ParticleNode> pnode(new ParticleNode(Particle::Default, mTextures));
         pnode->addAffector([](Particle &p, sf::Time dt) {
             p.position.x += 2 * std::cos(p.position.y * 0.05f);
             p.position.y -= 150.f * dt.asSeconds();

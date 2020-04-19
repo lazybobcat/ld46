@@ -3,6 +3,7 @@
 #include <states/titlestate.hpp>
 #include "../pause_state.hpp"
 #include "../game_state.hpp"
+#include "../win_state.hpp"
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
 
@@ -32,6 +33,7 @@ Application::Application(unsigned int width, unsigned int height, const std::str
     mTextures.load(Textures::Player, "assets/textures/player.png");
     mTextures.load(Textures::Ui, "assets/textures/ui.png");
     mTextures.load(Textures::MenuBackground, "assets/textures/background.png");
+    mTextures.load(Textures::TitleBackground, "assets/textures/homescreen.png");
     mTextures.load(Textures::WaterCan, "assets/textures/can.png");
     mTextures.load(Textures::Star, "assets/textures/star.png");
 
@@ -110,11 +112,9 @@ void Application::render()
 void Application::registerStates()
 {
     mStateStack.registerState<TitleState>(States::Title);
-    //mStateStack.registerState<MenuState>(States::Menu);
     mStateStack.registerState<GameState>(States::Game);
     mStateStack.registerState<PauseState>(States::Pause);
-//    mStateStack.registerState<LoadingState>(States::Loading);
-//    mStateStack.registerState<GameOverState>(States::GameOver);
+    mStateStack.registerState<WinState>(States::Win);
 }
 
 void Application::updateStatistics(sf::Time elapsedTime)
