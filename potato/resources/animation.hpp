@@ -48,6 +48,7 @@ private:
     sf::Time            mDuration;
     sf::Time            mElapsedTime;
     bool                mRepeat;
+    bool                mInitialized = false;
 };
 
 #endif // ANIMATION_H

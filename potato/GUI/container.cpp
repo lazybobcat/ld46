@@ -1,4 +1,5 @@
 #include <GUI/container.hpp>
+#include <iostream>
 
 using namespace GUI;
 
@@ -24,12 +25,9 @@ bool Container::isSelectable() const
 
 void Container::handleEvent(const sf::Event &event)
 {
-    if(hasSelection() && mChildren[mSelectedChild]->isActive())
-    {
+    if(hasSelection() && mChildren[mSelectedChild]->isActive()) {
         mChildren[mSelectedChild]->handleEvent(event);
-    }
-    else if(event.type == sf::Event::KeyReleased)
-    {
+    } else if(event.type == sf::Event::KeyReleased) {
         switch(event.key.code)
         {
             case sf::Keyboard::Z:
@@ -50,6 +48,26 @@ void Container::handleEvent(const sf::Event &event)
                 break;
 
             default:break;
+        }
+    } else if(event.type == sf::Event::JoystickButtonReleased) {
+        switch(event.joystickButton.button)
+        {
+            case 0:
+                if(hasSelection())
+                    mChildren[mSelectedChild]->activate();
+                break;
+
+            default:break;
+        }
+    } else if(event.type == sf::Event::JoystickMoved && mJoystickCooldown == sf::Time::Zero) {
+        if (event.joystickMove.axis == sf::Joystick::Y) {
+            if (event.joystickMove.position > 95) {
+                selectNext();
+                mJoystickCooldown = sf::seconds(.3f);
+            } else if (event.joystickMove.position < -95) {
+                selectPrevious();
+                mJoystickCooldown = sf::seconds(.3f);
+            }
         }
     }
 }
@@ -105,6 +123,12 @@ void Container::selectPrevious()
     while (!mChildren[prev]->isSelectable());
 
     select(prev);
+}
+
+void Container::update(sf::Time dt)
+{
+    if (mJoystickCooldown > sf::Time::Zero) mJoystickCooldown -= dt;
+    if (mJoystickCooldown < sf::Time::Zero) mJoystickCooldown = sf::Time::Zero;
 }
 
 

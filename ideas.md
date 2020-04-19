@@ -33,6 +33,6 @@
 
 ### TODO 
 
-* Menu dans le PauseState
 * Trouver un nom
-* Particles en GROWING (vertes) et en FULL (blanches)
+* Title screen
+* Sons et musiques

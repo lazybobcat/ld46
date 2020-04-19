@@ -23,7 +23,10 @@ namespace Textures
     {
         Particle,
         Tiles,
-        Player
+        TilesFull,
+        Player,
+        Ui,
+        MenuBackground,
     };
 }
 

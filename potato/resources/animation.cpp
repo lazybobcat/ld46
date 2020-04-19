@@ -144,10 +144,15 @@ void Animation::update(sf::Time dt)
     }
 
     mSprite.setTextureRect(textureRect);
+    mInitialized = true;
 }
 
 void Animation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    if (!mInitialized) {
+        return;
+    }
+
     states.transform *= getTransform();
     target.draw(mSprite, states);
 }

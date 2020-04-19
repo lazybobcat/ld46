@@ -126,6 +126,14 @@ void World::buildScene()
         });
         mSceneLayers[Foreground]->attachChild(std::move(pnode));
     }
+    {
+        std::unique_ptr<ParticleNode> pnode(new ParticleNode(Particle::Growing, mTextures));
+        pnode->addAffector([](Particle &p, sf::Time dt) {
+            p.position.x += 2 * std::cos(p.position.y * 0.05f);
+            p.position.y -= 150.f * dt.asSeconds();
+        });
+        mSceneLayers[Foreground]->attachChild(std::move(pnode));
+    }
 
     // Player
     std::unique_ptr<PlayerEntity> player(new PlayerEntity(mTextures));

@@ -27,7 +27,10 @@ Application::Application(unsigned int width, unsigned int height, const std::str
 
     mTextures.load(Textures::Particle, "assets/textures/particle.png");
     mTextures.load(Textures::Tiles, "assets/textures/tilemap.png");
+    mTextures.load(Textures::TilesFull, "assets/textures/tiles-full.png");
     mTextures.load(Textures::Player, "assets/textures/player.png");
+    mTextures.load(Textures::Ui, "assets/textures/ui.png");
+    mTextures.load(Textures::MenuBackground, "assets/textures/background.png");
 
     mTextures.get(Textures::Tiles).setSmooth(false);
     mTextures.get(Textures::Player).setSmooth(false);

@@ -29,12 +29,16 @@ PlayerController::PlayerController()
 
 void PlayerController::handleEvent(const sf::Event &event, CommandQueue &commands)
 {
-    if (event.type == sf::Event::KeyPressed)
-    {
+    if (event.type == sf::Event::KeyPressed) {
         // Check if pressed key appears in key binding, trigger command if so
         auto found = mKeyBinding.find(event.key.code);
         if (found != mKeyBinding.end() && !isRealtimeAction(found->second))
             commands.push(mActionBinding[found->second]);
+    } else if (event.type == sf::Event::JoystickButtonPressed) {
+        mLastJoystick = event.joystickButton.joystickId;
+        if (event.joystickButton.button == 0 || event.joystickButton.button == 1) {
+            commands.push(mActionBinding[Water]);
+        }
     }
 }
 
@@ -46,6 +50,18 @@ void PlayerController::handleRealtimeInput(CommandQueue &commands)
         {
             commands.push(mActionBinding[pair.second]);
         }
+    }
+
+    if (sf::Joystick::getAxisPosition(mLastJoystick, sf::Joystick::X) > 30) {
+        commands.push(mActionBinding[MoveRight]);
+    } else if (sf::Joystick::getAxisPosition(mLastJoystick, sf::Joystick::X) < -30) {
+        commands.push(mActionBinding[MoveLeft]);
+    }
+
+    if (sf::Joystick::getAxisPosition(mLastJoystick, sf::Joystick::Y) > 30) {
+        commands.push(mActionBinding[MoveDown]);
+    } else if (sf::Joystick::getAxisPosition(mLastJoystick, sf::Joystick::Y) < -30) {
+        commands.push(mActionBinding[MoveUp]);
     }
 }
 

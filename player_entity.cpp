@@ -78,7 +78,7 @@ void PlayerEntity::updateCurrent(sf::Time dt, CommandQueue& commands)
 
     if (mHasToWater && mCooldown == sf::Time::Zero) {
         sf::Vector2f position = getWorldPosition();
-        position += {128 / 2.f, 128.f};
+        position += {128 / 2.f, 110.f};
 
         if (mWaterCapacity > 0) {
             Command command;

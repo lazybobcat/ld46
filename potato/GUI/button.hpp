@@ -39,7 +39,7 @@ private:
 
 private:
     Callback            mCallback;
-    //const sf::Texture&  mButtonTexture;
+    const sf::Texture&  mButtonTexture;
     sf::Sprite          mSprite;
     sf::Text            mText;
     bool                mIsToggled;

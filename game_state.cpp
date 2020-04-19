@@ -36,8 +36,7 @@ bool GameState::handleEvent(const sf::Event& event)
     mPlayer.handleEvent(event, commands);
 
     // If ESC key is pressed, we leave
-    if (event.type == sf::Event::KeyReleased)
-    {
+    if (event.type == sf::Event::KeyReleased) {
         switch(event.key.code)
         {
             case sf::Keyboard::Escape:
@@ -50,9 +49,13 @@ bool GameState::handleEvent(const sf::Event& event)
 
             default:break;
         }
-    }
-    else if(event.type == sf::Event::LostFocus)
-    {
+    }  else if (event.type == sf::Event::JoystickButtonReleased) {
+        if (event.joystickButton.button == 7) {
+            if(!mIsGameOver) {
+                requestStackPush(States::Pause);
+            }
+        }
+    } else if(event.type == sf::Event::LostFocus) {
         if(!mIsGameOver) requestStackPush(States::Pause);
     }
 

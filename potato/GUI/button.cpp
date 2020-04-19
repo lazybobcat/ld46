@@ -4,19 +4,20 @@
 
 using namespace GUI;
 
-Button::Button(const FontHolder &fonts, const TextureHolder &/*textures*/) :
+Button::Button(const FontHolder &fonts, const TextureHolder &textures) :
     mCallback(),
-    //mButtonTexture(),
+    mButtonTexture(textures.get(Textures::Ui)),
     mSprite(),
     mText("", fonts.get(Fonts::Main), 16),
     mIsToggled(false)
 {
     sf::IntRect textureRect(0, 0, 200, 50);
-    //mSprite.setTexture(mButtonTexture);
+    mSprite.setTexture(mButtonTexture);
     mSprite.setTextureRect(textureRect);
 
     sf::FloatRect bounds = mSprite.getLocalBounds();
     mText.setPosition(bounds.width / 2.f, bounds.height / 2.f);
+    mText.setFillColor({49, 34, 44});
 }
 
 void Button::setCallback(Callback callback)

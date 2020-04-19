@@ -41,6 +41,8 @@ private:
 private:
     std::map<sf::Keyboard::Key, Action>		mKeyBinding;
     std::map<Action, Command>				mActionBinding;
+
+    unsigned int mLastJoystick = 0;
 };
 
 #endif // PLAYERCONTROLLER_H

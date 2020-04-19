@@ -38,7 +38,7 @@ bool TitleState::update(sf::Time dt)
 bool TitleState::handleEvent(const sf::Event& event)
 {
     // If any key is pressed, we leave
-    if (event.type == sf::Event::KeyReleased)
+    if (event.type == sf::Event::KeyReleased || event.type == sf::Event::JoystickButtonReleased)
     {
         requestStackPop();
     }

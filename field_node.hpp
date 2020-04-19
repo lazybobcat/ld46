@@ -45,6 +45,7 @@ protected:
 
 private:
     sf::Sprite mSprite;
+    Animation  mAnimation;
     FieldState mState = FieldState::Dirt;
 
     int mWateredCount = 0;
@@ -52,7 +53,8 @@ private:
     sf::Time mGrowTimer = sf::Time::Zero;
     sf::Time mDecayTimer = sf::Time::Zero;
 
-    EmitterNode* mEmitter = nullptr;
+    EmitterNode* mFullEmitter = nullptr;
+    EmitterNode* mGrowingEmitter = nullptr;
 };
 
 

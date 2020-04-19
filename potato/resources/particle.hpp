@@ -11,6 +11,7 @@ struct Particle
     {
         Default,
         Water,
+        Growing,
         ParticleCount
     };
 

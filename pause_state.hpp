@@ -6,6 +6,7 @@
 #define LD46_PAUSE_STATE_HPP
 
 #include <states/state.hpp>
+#include <GUI/container.hpp>
 
 class PauseState : public State
 {
@@ -18,6 +19,10 @@ public:
 
 private:
     sf::Text mText;
+    sf::Sprite mBackground;
+    Animation mGhost;
+    Animation mWell;
+    GUI::Container mContainer;
 };
 
 
